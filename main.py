@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
+# TODO: error check, i.e. if word doesn't exist, word isn't 5 letters, multiple letters etc. 
 
 import random 
 import sys as sus
 from termcolor import colored 
+# everytime i do import i need to do 'pip install <import_name>'
+import nltk 
+from nltk.corpus import words 
 
 def print_menu():
     print("Let's play Linguistica: ")
@@ -13,8 +17,10 @@ def get_random_word():
         words = file.read().splitlines()
         return random.choice(words)
 
-# print_menu()
-# final_word = get_random_word()
+nltk.data.path.append('/work/words')
+word_list = words.words()
+words_five = [word for word in word_list if len(word) == 5]
+
 play_again = ""
 while play_again != "q":
 
@@ -45,5 +51,7 @@ while play_again != "q":
         if guess == final_word:
             print(colored(f"Congrats! You got solved today's linguistica in {attempt+1}", 'red'))
             break
-        
+        elif attempt == 6:
+            print(f"Sorry the linguistica was {final_word}")
+    
     play_again = input("Play again? if not type q to quit: ")
